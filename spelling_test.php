@@ -114,7 +114,7 @@ function spelling_uninstall()
 function test_editing_menu(){
     add_menu_page('Редактор тестов', 'Редактор тестов', 8, 'test_editor', 'route_edit_test');
     add_submenu_page('test_editor', 'Добавить тест', 'Добавить тест', 8, 'add_test', 'route_edit_test');
-    add_submenu_page('test_editor', 'Удалить тест', 'Удалить тест', 8, 'edit_test', 'route_edit_test');
+    add_submenu_page('test_editor', 'Удалить тест', 'Удалить тест', 8, 'del_test', 'route_edit_test');
 }
 
 add_action('admin_menu', 'test_editing_menu');
@@ -129,6 +129,9 @@ function route_edit_test(){
             break;
         case 'edit_test':
             $file = 'test_edit';
+            break;
+        case 'del_test':
+            $file = 'test_del';
             break;
     }
     include("includes/$file.php");

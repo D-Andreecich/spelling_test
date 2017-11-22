@@ -33,7 +33,14 @@ function print_test($atts)
         $table_word_query = "SELECT * FROM {$table_name['words']} WHERE `id_test` = {$test}";
         $array_table_word_result = $wpdb->get_results($table_word_query, ARRAY_A);
 
-        $article_text = file_get_contents($path);
+//        $article_text = file_get_contents($path);
+            $tmp = file($path);
+            $str ='';
+            foreach ($tmp as $val){
+                $str .= $val . '<br>';
+            }
+        $article_text =$str;
+
         $id_rules = '(';
 
         foreach ($array_table_word_result as $word) {

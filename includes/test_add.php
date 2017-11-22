@@ -11,24 +11,10 @@
 include("core.php");
 
 if (!empty($_POST)) {
-    $article_title = trim($_POST['title']);
-    $article_text = trim($_POST['text']);
-    $i = 1;
 
-    while (!empty($_POST['original_word_' . $i])) {
-        $original_word[$i] = trim($_POST['original_word_' . $i]);
-        $modified_word[$i] = trim($_POST['modified_word_' . $i]);
-        $options_for_word[$i] = trim($_POST['options_for_word_' . $i]);
-        $rules_for_word[$i] = trim($_POST['rules_for_word_' . $i]);
+    $parse = postParse($_POST);
 
-        $words_and_rules[$i][] = $original_word[$i];
-        $words_and_rules[$i][] = $modified_word[$i];
-        $words_and_rules[$i][] = $options_for_word[$i];
-        $words_and_rules[$i][] = $rules_for_word[$i];
-
-        $i++;
-    }
-    if (!test_add($article_title, $article_text, $words_and_rules)) {
+    if (!test_add($parse['article_title'], $parse['article_text'], $parse['words_and_rules'])) {
         $error = true;
     }
 } else {
@@ -42,11 +28,11 @@ if (!empty($_POST)) {
     $error = false;
 }
 
-$i = 1;//test
-
+$allRuleWord = getRuleWord();
+$allText = getAllText();
 ?>
 
-<h1>Добавть новый тест</h1>
+<h1>Добавить новый тест</h1>
 
 <?php if ($error): ?>
     <p class="error">Пожалуйста заполните все поля</p>
@@ -59,9 +45,38 @@ $i = 1;//test
     <input type="text" name="title" value="<?= $article_title ?>" required/>
     <br/>
     <span>Текст:</span>
+    <select id="text" data-id="text" class="selectpicker" onchange="setText(this.id)">
+        <option>Выбрать готовый текст</option>
+    </select>
     <br/>
-    <textarea rows="10" cols="45" name="text" required><?= $article_text ?></textarea>
+    <textarea id="inputTest" rows="10" cols="45" name="text" onchange="addWords()" required><?= $article_text ?></textarea>
     <br/>
+    <br/>
+    <div>
+        <span>Слово:</span>
+        <select id="original_words" data-id="original_word_" class="selectpicker" onchange="setValue(this.id)">
+            <!--  original_word(s)  -->
+            <option>Выбрать слово</option>
+        </select>
+        <span>Замена:</span>
+        <select id="modified_word" data-id="modified_word_" class="selectpicker" onchange="setValue(this.id)">
+            <option>Выбрать замену</option>
+        </select>
+        <span>Варианты ответа:</span>
+        <select id="options" data-id="options_for_word_" class="selectpicker" onchange="setValue(this.id)">
+            <option>Выбрать варианты ответа</option>
+        </select>
+        <br/>
+
+        <span>Правило:</span>
+        <select id="rules_for_word" data-id="rules_for_word_" class="selectpicker" onchange="setValue(this.id)">
+            <option>Выбрать правило</option>
+        </select>
+        <br/>
+    </div>
+
+    <br/>
+
     <!--    for     -->
     <div id="input_word_<?= $i ?>">
         <span><?= $i ?>) </span>
@@ -79,10 +94,20 @@ $i = 1;//test
     <br/>
 
     <div id="add_input">
-        <input id="id_word" type="hidden" value="<?=$i ?>">
+        <input id="id_word" type="hidden" value="<?= $i ?>">
         <button type="button" value="" onclick=" add_word()">Добавить слово</button>
         <button type="button" value="" onclick=" del_word()">Удалить слово</button>
     </div>
     <br/>
     <input type="submit" value="Сохранить тест">
 </form>
+
+<script type="text/javascript">
+    var arrRulesWords = <?php echo json_encode($allRuleWord) ?>;
+    var arrText = <?php echo json_encode($allText) ?>;
+
+    addOptionsText('text', arrText);
+
+    goAddOptoins();
+
+</script>
