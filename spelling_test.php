@@ -37,6 +37,7 @@ function spelling_activation()
     $sql[$table_name['test']] = "CREATE TABLE {$table_name['test']} (
         `id_test`  INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
         `title` VARCHAR(255) NOT NULL,
+        `is_del` BOOLEAN NOT NULL DEFAULT FALSE,
         PRIMARY KEY  (`id_test`)
     ) {$charset_collate};";
 

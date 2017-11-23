@@ -63,12 +63,12 @@ function test_add($title, $text, $words_and_rules)
 
     foreach ($words_and_rules as $wr) {
         $add_rule = "INSERT INTO {$table_name['rules']} (rules_for_word) VALUES ('%s')";
-        $query_add_rule = $wpdb->prepare($add_rule, $wr['3']);
+        $query_add_rule = $wpdb->prepare($add_rule, $wr['rules_for_word']);
         $result['rules'] = $wpdb->query($query_add_rule);
         $id_rule = $wpdb->insert_id;
 
-        $add_word = "INSERT INTO {$table_name['words']} (original_words, modified_word, options, id_rule, id_test) VALUES ('%s','%s','%s',%d,%d)";
-        $query_add_word = $wpdb->prepare($add_word, $wr['0'], $wr['1'], $wr['2'], $id_rule, $id_post);
+        $add_word = "INSERT INTO {$table_name['words']} (original_word, modified_word, options, id_rule, id_test) VALUES ('%s','%s','%s',%d,%d)";
+        $query_add_word = $wpdb->prepare($add_word, $wr['original_word'], $wr['modified_word'], $wr['options'], $id_rule, $id_post);
         $result['words'] = $wpdb->query($query_add_word);
     }
 
@@ -144,7 +144,7 @@ function test_edit($id_test, $origin_title, $title, $origin_text, $text, $origin
     while ($i <= count($words_and_rules)) {
         if (!empty($words_and_rules[$i]['id_word']) && $words_and_rules[$i]['id_word'] === $origin_w_r['words'][$i - 1]['id_word']) {
             $fields = [
-                '0' => 'original_words',
+                '0' => 'original_word',
                 '1' => 'modified_word',
                 '2' => 'options',
             ];
@@ -160,8 +160,8 @@ function test_edit($id_test, $origin_title, $title, $origin_text, $text, $origin
             $wpdb->query($query_add_rule);
             $id_rule = $wpdb->insert_id;
 
-            $add_word = "INSERT INTO {$table_name['words']} (original_words, modified_word, options, id_rule, id_test) VALUES ('%s','%s','%s',%d,%d)";
-            $query_add_word = $wpdb->prepare($add_word, $words_and_rules[$i]['original_words'], $words_and_rules[$i]['modified_word'], $words_and_rules[$i]['options'], $id_rule, $id_test);
+            $add_word = "INSERT INTO {$table_name['words']} (original_word, modified_word, options, id_rule, id_test) VALUES ('%s','%s','%s',%d,%d)";
+            $query_add_word = $wpdb->prepare($add_word, $words_and_rules[$i]['original_word'], $words_and_rules[$i]['modified_word'], $words_and_rules[$i]['options'], $id_rule, $id_test);
             $wpdb->query($query_add_word);
         }
         $i++;
@@ -181,7 +181,7 @@ function postParse($post)
         $options_for_word[$i] = trim($post['options_for_word_' . $i]);
         $rules_for_word[$i] = trim($post['rules_for_word_' . $i]);
 
-        $words_and_rules[$i]['original_words'] = $original_word[$i];
+        $words_and_rules[$i]['original_word'] = $original_word[$i];
         $words_and_rules[$i]['modified_word'] = $modified_word[$i];
         $words_and_rules[$i]['options'] = $options_for_word[$i];
         $words_and_rules[$i]['rules_for_word'] = $rules_for_word[$i];

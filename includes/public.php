@@ -56,7 +56,7 @@ function print_test($atts)
             $id_rules = $id_rules . $word['id_rule'] . ', ';
 
             $repl = '<span class="word" id="w' . $word['id_word'] . '" >' . $word['modified_word'] . '</span>';
-            $article_text = str_replace($word['original_words'], $repl, $article_text);
+            $article_text = str_replace($word['original_word'], $repl, $article_text);
 
             $variant = '<select id="v' . $word['id_word'] . '"></select>';
 
@@ -127,7 +127,7 @@ function wiev($opt, $wrd)
                 var rules = '<span class="cl_new info"><img src="http://www.bzfar.net/Erudit/Sova.png" alt="Правило" height="50" width="50" /><em>Правило</em>' + array_rules[array_words[i]['id_rule']].rules_for_word + '</span>';
 
                 array_test_word[array_words[i]['id_word']] = document.getElementById('w' + array_words[i]['id_word']).innerText;
-                if(array_words[i]['original_words'] === array_test_word[array_words[i]['id_word']]){
+                if(array_words[i]['original_word'] === array_test_word[array_words[i]['id_word']]){
                     document.getElementById('w' + array_words[i]['id_word']).style.backgroundColor = '#00b901';
                 }else {
                     document.getElementById('w' + array_words[i]['id_word']).style.backgroundColor = '#de0f17';

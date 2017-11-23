@@ -97,16 +97,16 @@ function addWords() {
     var temp = [];
     var word = '';
     for (var i in arrRulesWords.words) {
-        word = arrRulesWords.words[i]['original_words'];
+        word = arrRulesWords.words[i]['original_word'];
         if (text.search(word) != -1) {
             if (temp.indexOf(word) == -1) {
-                temp[i] = arrRulesWords.words[i]['original_words'];
+                temp[i] = arrRulesWords.words[i]['original_word'];
                 tempArrRulesWords[i] = arrRulesWords.words[i];
             }
         }
     }
     // addOptions('original_words', arrRulesWords.words);
-    addOptions('original_words', tempArrRulesWords);
+    addOptions('original_word', tempArrRulesWords);
     // addOptions('modified_word', arrRulesWords.words);
     addOptions('modified_word', tempArrRulesWords);
 

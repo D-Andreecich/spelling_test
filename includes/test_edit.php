@@ -19,7 +19,7 @@ if ($result) {
 
     $i = 1;
     foreach ($result['words'] as $word_temp) {
-        $original_word[$i] = $word_temp['original_words'];
+        $original_word[$i] = $word_temp['original_word'];
         $modified_word[$i] = $word_temp['modified_word'];
         $options_for_word[$i] = $word_temp['options'];
         $rules_for_word[$i] = $result['rules'][$word_temp['id_rule']]->rules_for_word;
@@ -63,7 +63,7 @@ if (!empty($_POST)) {
     <textarea id="inputTest" rows="10" cols="45" name="text" required><?= $article_text ?></textarea>
     <div>
         <span>Слово:</span>
-        <select id="original_words" data-id="original_word_" class="selectpicker" onchange="setValue(this.id)">
+        <select id="original_word" data-id="original_word_" class="selectpicker" onchange="setValue(this.id)">
             <!--  original_word(s)  -->
             <option>Выбрать слово</option>
         </select>

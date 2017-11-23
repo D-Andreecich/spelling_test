@@ -54,7 +54,7 @@ $allText = getAllText();
     <br/>
     <div>
         <span>Слово:</span>
-        <select id="original_words" data-id="original_word_" class="selectpicker" onchange="setValue(this.id)">
+        <select id="original_word" data-id="original_word_" class="selectpicker" onchange="setValue(this.id)">
             <!--  original_word(s)  -->
             <option>Выбрать слово</option>
         </select>
