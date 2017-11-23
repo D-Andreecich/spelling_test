@@ -9,11 +9,20 @@ function print_test($atts)
 {
     extract($atts);
     $error = true;
+
     $path = plugin_dir_path(__FILE__) . "../file_test/test_" . $test . ".txt";
     global $wpdb;
 
     $table_name['test'] = $wpdb->get_blog_prefix() . 'table_test';
 
+    $table_test_query = "SELECT `id_test` FROM {$table_name['test']} WHERE {$table_name['test']}.`id_test` = {$test}  AND {$table_name['test']}.`is_del` = 0";
+    $array_table_test_is = $wpdb->get_results($table_test_query, ARRAY_A);
+    $temp = $array_table_test_is ? $array_table_test_is['0']['id_test'] :  false;
+
+    if(!$temp){
+        echo '<h2>' . 'Указаного теста не найдено' . '</h2>' . '<div id="p' . $test . '">' . '<p>' . 'Нет указаного текста' . '</p>' . '</div>';
+        die();
+    }
 
     $table_test_query = "SELECT `id_test`, `title` FROM {$table_name['test']}";
     $array_table_test_result = $wpdb->get_results($table_test_query, ARRAY_A);
@@ -59,17 +68,9 @@ function print_test($atts)
         $table_rules_query = "SELECT * FROM {$table_name['rules']} WHERE `id_rule` in {$id_rules}";
         $array_table_rules_result = $wpdb->get_results($table_rules_query, OBJECT_K );
 
-        /*echo '<pre>';
-        echo '$id_rules = ';
-        echo '<br>';
-        echo $id_rules;
-        echo '<br>';
-        echo '$array_table_rules_result = ';
-        echo '<br>';
-        var_dump($array_table_rules_result);
-        echo '</pre>';*/
     } else {
-
+//        echo '<h2>' . 'Указаного теста не найдено' . '</h2>' . '<div id="p' . $test . '">' . '<p>' . 'Нет указаного текста' . '</p>' . '</div>';
+//        wiev('', '');
     }
 
     $wrd = json_encode($array_table_word_result);
