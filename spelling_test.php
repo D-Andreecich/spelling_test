@@ -10,6 +10,7 @@ Plugin URI: local.host/spelling_test
 ?>
 <?php
 include ("includes/public.php");
+include_once ("includes/core.php");
 
 require_once ABSPATH . 'wp-admin/includes/upgrade.php'; //для dbDelta
 
@@ -77,11 +78,6 @@ function spelling_activation()
         ADD FOREIGN KEY (`id_rule`) REFERENCES {$sql[$table_name['rules']]} (`id_rule`) ON DELETE CASCADE ON UPDATE CASCADE;";
 
     $wpdb->query($test);
-
-//    $pdo = new PDO('mysql:host=127.0.0.1;dbname=wordpress', 'userwordpress', 'userwordpress');
-//    $statement = $pdo->query("ALTER TABLE `wp_table_rules_words`
-//      ADD CONSTRAINT `wp_table_rules_words_ibfk_1` FOREIGN KEY (`id_word`) REFERENCES `wp_table_words` (`id_word`),
-//      ADD CONSTRAINT `wp_table_rules_words_ibfk_2` FOREIGN KEY (`id_rule`) REFERENCES `wp_table_rules` (`id_rule`);");
 }
 
 function spelling_deactivation()
@@ -92,15 +88,13 @@ function spelling_deactivation()
 
 function spelling_uninstall()
 {
-    return true;
-
-    /*if(file_exists(SPELLING_TEST_DIR."/file_test") && is_dir(SPELLING_TEST_DIR."/file_test")){
-        if(!rmdir ( SPELLING_TEST_DIR."/file_test")){
-
+    /*if(file_exists(SPELLING_TEST_DIR . "/file_test") && is_dir(SPELLING_TEST_DIR . "/file_test")){
+        if(!rmdir ( SPELLING_TEST_DIR . "/file_test")){
+            system("rm -rf directory");
         }
-    }*/
+    }
 
-    /*$table_name['test'] = $wpdb->get_blog_prefix() . 'table_test';
+    $table_name['test'] = $wpdb->get_blog_prefix() . 'table_test';
     $table_name['words'] = $wpdb->get_blog_prefix() . 'table_words';
     $table_name['rules'] = $wpdb->get_blog_prefix() . 'table_rules';
     $table_name['rule_word'] = $wpdb->get_blog_prefix() . 'table_rule_word';
@@ -109,6 +103,8 @@ function spelling_uninstall()
     foreach ($table_name as $table) {
             $wpdb->query("DROP TABLE IF EXISTS {$table}");
     }*/
+
+    return true;
 }
 
 //Меню редактирования и работы с тестами
@@ -119,26 +115,6 @@ function test_editing_menu(){
 }
 
 add_action('admin_menu', 'test_editing_menu');
-
-function route_edit_test(){
-    switch ($_GET['page']){
-        case 'test_editor':
-            $file = 'test_editor';
-            break;
-        case 'add_test':
-            $file = 'test_add';
-            break;
-        case 'edit_test':
-            $file = 'test_edit';
-            break;
-        case 'del_test':
-            $file = 'test_del';
-            break;
-    }
-    include("includes/$file.php");
-}
-
-
 
 function enqueue_plugin_scripts($plugin_array)
 {
@@ -165,4 +141,3 @@ function enqueue_script() {
 }
 
 add_action( 'admin_enqueue_scripts', 'enqueue_script' );
-

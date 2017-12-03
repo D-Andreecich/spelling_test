@@ -109,7 +109,7 @@ function wiev($opt, $wrd)
             for (var i = 0; i < array_words.length; i++) {
                 var objSel = document.getElementById('v' + array_words[i]['id_word']);
 
-                var array_opt = array_words[0]['options'].split(', ');
+                var array_opt = array_words[i]['options'].split(', ');
 
                 objSel.options[0] = new Option('_', "_", true);
                 for (var j = 0; j < array_opt.length; j++) {

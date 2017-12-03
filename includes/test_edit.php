@@ -7,6 +7,8 @@
  */
 include_once("core.php");
 
+
+
 $result = test_edit_view($_GET['test']);
 
 if ($result) {
@@ -42,11 +44,18 @@ $allRuleWord = getRuleWord();
 if (!empty($_POST)) {
 
     $parse = postParse($_POST);
+    $_POST['redirect'] = true;
 
     if (!test_edit($test_id, $article_title, $parse['article_title'], $article_text, $parse['article_text'], $result, $parse['words_and_rules'])) {
         $error = true;
+        $_POST['redirect'] = false;
     }else {
-//        wp_redirect('http://wordpress/wp-admin/admin.php', 301);
+        if ($_POST['redirect']) {
+            echo '<h2>    Тест успешно изменен</h2>';
+            $_GET = null;
+            include ('test_editor.php');
+            exit();
+        }
     }
 }
 ?>

@@ -8,14 +8,22 @@
 
 //wp_enqueue_script('newscript', plugin_dir_path(__FILE__)."../assets/js/main.js");
 
-include("core.php");
+include_once("core.php");
 
 if (!empty($_POST)) {
 
     $parse = postParse($_POST);
+    $_POST['redirect'] = true;
 
     if (!test_add($parse['article_title'], $parse['article_text'], $parse['words_and_rules'])) {
+        $_POST['redirect'] = false;
         $error = true;
+    }else {
+        if ($_POST['redirect']) {
+            echo '<h2>    Тест успешно добавлен   </h2>';
+            include ('test_editor.php');
+            exit();
+        }
     }
 } else {
     $i = 1;
@@ -105,7 +113,6 @@ $allText = getAllText();
 <script type="text/javascript">
     var arrRulesWords = <?php echo json_encode($allRuleWord) ?>;
     var arrText = <?php echo json_encode($allText) ?>;
-
     addOptionsText('text', arrText);
 
     goAddOptoins();

@@ -227,7 +227,7 @@ function getTexts()
 function getAllText()
 {
     $id = 1;
-    $result = '';
+    $result = array();
     while ($id < 10) {
         $path = plugin_dir_path(__FILE__) . "../file_test/test_" . $id . ".txt";
         if (file_exists($path)) {
@@ -236,4 +236,22 @@ function getAllText()
         $id++;
     }
     return $result;
+}
+
+function route_edit_test(){
+    switch ($_GET['page']){
+        case 'test_editor':
+            $file = 'test_editor';
+            break;
+        case 'add_test':
+            $file = 'test_add';
+            break;
+        case 'edit_test':
+            $file = 'test_edit';
+            break;
+        case 'del_test':
+            $file = 'test_del';
+            break;
+    }
+    include("$file.php");
 }
