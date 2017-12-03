@@ -109,7 +109,7 @@ function update_words($origin, $change, array $fields)
 {
     foreach ($fields as $field) {
         if ($change[$field] !== $origin[$field]) {
-            $update_word = "UPDATE `wp_table_words` SET {$field} = {$change[$field]} WHERE `wp_table_words`.`id_word` = {$change['id_word']}";
+            $update_word = "UPDATE `wp_table_words` SET `{$field}` = '{$change[$field]}' WHERE `wp_table_words`.`id_word` = {$change['id_word']}";
             dbDelta($update_word);
         }
     }
@@ -136,10 +136,6 @@ function test_edit($id_test, $origin_title, $title, $origin_text, $text, $origin
         file_put_contents(plugin_dir_path(__FILE__) . "../file_test/test_" . $id_test . ".txt", $update_text);
     }
 
-    foreach ($words_and_rules as $word_rule) {
-//    UPDATE `wp_table_rules` SET `rules_for_word` = 'Вот так вот ' WHERE `wp_table_rules`.`id_rule` = 9
-//    UPDATE `wp_table_words` SET `original_words` = 'текст ', `modified_word` = 'те_ст ', `options` = 'к, с, л ' WHERE `wp_table_words`.`id_word` = 3
-    }
     $i = 1;
     while ($i <= count($words_and_rules)) {
         if (!empty($words_and_rules[$i]['id_word']) && $words_and_rules[$i]['id_word'] === $origin_w_r['words'][$i - 1]['id_word']) {
@@ -174,7 +170,6 @@ function postParse($post)
     $article_title = trim($post['title']);
     $article_text = trim($post['text']);
     $i = 1;
-
     while (!empty($post['original_word_' . $i])) {
         $original_word[$i] = trim($post['original_word_' . $i]);
         $modified_word[$i] = trim($post['modified_word_' . $i]);
